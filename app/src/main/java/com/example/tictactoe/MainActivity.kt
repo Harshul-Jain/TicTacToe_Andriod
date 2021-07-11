@@ -1,5 +1,6 @@
 package com.example.tictactoe
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -74,18 +75,32 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.button9 -> {
                 updateValue(row = 2, col = 2, player = PLAYER)
             }
-
         }
+        if (PLAYER) {
+            updateDisplay("Player X Turn")
+        } else {
+            updateDisplay("Player O Turn")
+        }
+        if (TURN_COUNT == 9) {
+            updateDisplay("Game Draw")
+        }
+    }
+
+    private fun updateDisplay(text: String) {
+        displayTv.text = text
     }
 
     private fun updateValue(row: Int, col: Int, player: Boolean) {
         val text: String = if (player) "X" else "O"
         val value: Int = if (player) 1 else 0
+        val color = if (player) "#FF0000" else "#114D05"
         board[row][col].apply {
             isEnabled = false
             this.text = text
+            setTextColor(Color.parseColor(color))
         }
         boardStatus[row][col] = value
         PLAYER = !PLAYER
+        TURN_COUNT++
     }
 }
